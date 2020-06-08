@@ -1,3 +1,5 @@
-3-02- 01：24
+3-07-
 1。//开启时严格模式。是否对空值做检查
-ts index.ts --strictMullcheck 
+tsc index.ts --strictMullcheck 
+2 指定编译版本
+tsc index.ts --target es2015
