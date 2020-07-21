@@ -9,7 +9,7 @@ function logIdeA<T extends LengthWhi>(arg: T): T {
 
 logIdeA(1) //报错
 logIdeA("1")
-logIdeA({ length: 1 }) \
+logIdeA({ length: 1 })
 
 
 // 案例2
