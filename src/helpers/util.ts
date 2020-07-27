@@ -16,3 +16,19 @@ export const isObject: (val: any) => val is Object = (val: any): val is Object =
 export const isPlainObject: (val: any) => val is Object = (val: any): val is Object => {
   return toString.call(val) === '[object Object]'
 }
+
+
+// 拷贝函数
+
+// export const extend: <T, U>(to: T, from: U) => T & U = (to, from) => {// 采取交叉类型实现
+//   for (const key in from) {
+//     ; (to as T & U)[key] = from[key] as any
+//   }
+//   return to as T & U
+// }
+export function extend<T, U>(to: T, from: U): T & U {
+  for (const key in from) {
+    ; (to as T & U)[key] = from[key] as any
+  }
+  return to as T & U
+}

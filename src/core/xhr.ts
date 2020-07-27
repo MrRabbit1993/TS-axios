@@ -1,9 +1,8 @@
-import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from './types/index'
+import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from '../types/index'
 
-import { parseHeaders } from './helpers/headers'
+import { parseHeaders } from '../helpers/headers'
 
-import { createError } from './helpers/error'
-import { request } from 'http'
+import { createError } from '../helpers/error'
 
 // 创建最基本的请求发送
 
@@ -23,7 +22,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
       request.timeout = timeout
     }
 
-    request.open(method.toUpperCase(), url, true)
+    request.open(method.toUpperCase(), url!, true) // 这里采取类型断言，断言这个url不会为空
 
     request.onreadystatechange = () => {
       if (request.readyState !== 4) {
@@ -47,7 +46,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
         request
       }
       // resolve(response)
-      handleResponse(response, resolve, reject)
+      handleResponse(response, resolve, reject,config,request)
     }
 
     request.onerror = () => {

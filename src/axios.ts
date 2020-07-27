@@ -1,47 +1,22 @@
-import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from './types/index'
+import { AxiosInstance } from "./types"
 
-import { buildURL } from './helpers/url'
+import Axios from "./core/Axios"
 
-import { transformRequest, transformResponse } from './helpers/data'
+import { extend } from "./helpers/util"
 
-import { processHeaders } from './helpers/headers'
+const createInstance: () => AxiosInstance = () => {
+  const context = new Axios()
 
-import xhr from './xhr'
+  const instance = Axios.prototype.request.bind(context) // 将实例指向原型上的request。由于request需要访问this。所以手动绑定上下文
 
-function axios(config: AxiosRequestConfig): AxiosPromise {
-  processConfig(config)
+  // 将Axios类上的原型属性和实例属性全部拷贝到instance上
+  extend(instance, context)
 
-  return xhr(config).then(res => transformResponseData(res))
+  return instance as AxiosInstance
 }
 
-const processConfig: (config: AxiosRequestConfig) => void = config => {
-  config.url = transformURL(config)
-  config.headers = transformHeaders(config)
-  config.data = transformRequestData(config)
-}
+const axios = createInstance()
 
-// 转换url
-const transformURL: (config: AxiosRequestConfig) => string = config => {
-  const { url, params } = config
 
-  return buildURL(url, params)
-}
-
-// 转换请求的data
-const transformRequestData: (config: AxiosRequestConfig) => any = config => {
-  return transformRequest(config.data)
-}
-
-// 转换请求头
-const transformHeaders: (config: AxiosRequestConfig) => any = config => {
-  const { headers = {}, data } = config
-
-  return processHeaders(headers, data)
-}
-
-const transformResponseData: (res: AxiosResponse) => AxiosResponse = res => {
-  res.data = transformResponse(res.data)
-  return res
-}
-
+// 后续调取axios(config)==>相当于是调取instance===>instance 指向Axios.prototype.request，因此相当于是调取了Axios.prototype.request
 export default axios
