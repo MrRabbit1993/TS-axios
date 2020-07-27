@@ -8,3 +8,14 @@ export const transformRequest: (data: any) => any = data => {
 
   return data
 }
+
+export const transformResponse: (data: any) => any = data => {
+  if (typeof data === 'string') {
+    try {
+      data = JSON.parse(data)
+    } catch (e) {
+      // 不处理
+    }
+  }
+  return data
+}
