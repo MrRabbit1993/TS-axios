@@ -3,7 +3,17 @@ import { AxiosRequestConfig, AxiosPromise, Method } from "./../types"
 import dispatchRequest from "./dispatchRequest"
 
 export default class Axios {
-    request(config: AxiosRequestConfig): AxiosPromise {
+    // request(config: AxiosRequestConfig): AxiosPromise {
+    //     return dispatchRequest(config)
+    // }
+    // 函数重载扩展请求
+    request(url: any, config?: any): AxiosPromise {
+        if (typeof url === 'string') { // 对应 axios('url',config)
+            if (!config) config = {}
+            config.url = url
+        }else{
+            config = url // 对应 axios(config)
+        }
         return dispatchRequest(config)
     }
 

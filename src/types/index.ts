@@ -66,4 +66,6 @@ export interface Axios {
 
 export interface AxiosInstance extends Axios { // 继承Axios的明确请求方法。形成混合接口
   (config: AxiosRequestConfig): AxiosPromise
+
+  (url: string, config?: AxiosRequestConfig): AxiosPromise // 函数类型的定义签名
 }
