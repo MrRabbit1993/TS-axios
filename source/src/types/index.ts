@@ -1,4 +1,4 @@
-//项目工程  所有公共的类型定义文件
+// 项目工程  所有公共的类型定义文件
 
 export type Method =
   | 'get'
@@ -14,7 +14,7 @@ export type Method =
   | 'put'
   | 'PUT'
   | 'patch'
-  | 'PATCH' //约束methosd
+  | 'PATCH' // 约束methosd
 
 export interface AxiosRequestConfig {
   url: string
@@ -23,6 +23,7 @@ export interface AxiosRequestConfig {
   params?: any
   headers?: any
   responseType?: XMLHttpRequestResponseType
+  timeout?: number
 }
 
 export interface AxiosResponse {
@@ -35,3 +36,11 @@ export interface AxiosResponse {
 }
 
 export interface AxiosPromise extends Promise<AxiosResponse> {}
+
+export interface AxiosError extends Error {
+  config: AxiosRequestConfig
+  code?: string | null
+  request?: any
+  response?: AxiosResponse
+  isAxiosError: boolean
+}

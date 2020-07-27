@@ -2,11 +2,14 @@ import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from './types/index'
 
 import { parseHeaders } from './helpers/headers'
 
+import { createError } from './helpers/error'
+import { request } from 'http'
+
 // 创建最基本的请求发送
 
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
-  return new Promise(resolve => {
-    const { url, method = 'get', data = null, headers, responseType } = config
+  return new Promise((resolve, reject) => {
+    const { url, method = 'get', data = null, headers, responseType, timeout } = config
 
     const request = new XMLHttpRequest()
 
@@ -15,10 +18,20 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
       request.responseType = responseType
     }
 
+    if (timeout) {
+      // 超时时间
+      request.timeout = timeout
+    }
+
     request.open(method.toUpperCase(), url, true)
 
     request.onreadystatechange = () => {
       if (request.readyState !== 4) {
+        return
+      }
+
+      if (request.status === 0) {
+        // 超时和网络错误时，当前状态码也是0
         return
       }
 
@@ -33,7 +46,19 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
         config,
         request
       }
-      resolve(response)
+      // resolve(response)
+      handleResponse(response, resolve, reject)
+    }
+
+    request.onerror = () => {
+      // reject(new Error("Network Error"))
+      reject(createError('Network Error', config, null, request))
+    }
+
+    request.ontimeout = () => {
+      // 超时
+      // reject(new Error(`Timeout of ${timeout} ms exceeded`))
+      reject(createError(`Timeout of ${timeout} ms exceeded`, config, 'ECONNABORTED', request))
     }
 
     Object.keys(headers).forEach(name => {
@@ -46,4 +71,27 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
 
     request.send(data)
   })
+}
+
+const handleResponse: (
+  response: AxiosResponse,
+  resolve: any,
+  reject: any,
+  config: AxiosRequestConfig,
+  request: any
+) => void = (response, resolve, reject, config, request) => {
+  if (response.status >= 200 && response.status < 300) {
+    resolve(response)
+  } else {
+    // reject(new Error(`Request faild with status code ${response.status}`))
+    reject(
+      createError(
+        `Request faild with status code ${response.status}`,
+        config,
+        null,
+        request,
+        response
+      )
+    )
+  }
 }
