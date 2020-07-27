@@ -79,3 +79,21 @@ export interface AxiosInstance extends Axios { // 继承Axios的明确请求方�
 
   <T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T> // 函数类型的定义签名
 }
+
+
+// 拦截器接口
+export interface AxiosInterceptorManager<T> {
+  use(resolve: ResolvedFn<T>, rejected: RejectedFn): number // 返回id便于eject删除一个拦截器
+
+  eject(id: number): void
+}
+
+// 请求拦截器接口
+export interface ResolvedFn<T> {
+  (val: T): T | Promise<T>
+}
+
+// 响应拦截器接口
+export interface RejectedFn {
+  (err: any): any
+}
