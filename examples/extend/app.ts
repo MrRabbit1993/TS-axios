@@ -63,7 +63,14 @@ function getUser<T>() {
 }
 
 async function test() {
-  const user = await getUser<User>();
+  const user = await getUser<User>();  
+  // 这里穿入User 上面调用 T ===>User  ===>axios<ResponseData<User>>('/extend/user')
+  // 响应的类型就也应该是<ResponseData<User>>
+  // 然后就会有 {
+  //   code: number
+  // result: User --->name: string,age: number
+  // message: string
+  // }
 
   if (user) {
     return user.result.name;
