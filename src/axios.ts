@@ -1,11 +1,13 @@
-import { AxiosInstance } from "./types"
+import { AxiosInstance, AxiosRequestConfig } from "./types"
 
 import Axios from "./core/Axios"
 
 import { extend } from "./helpers/util"
 
-const createInstance: () => AxiosInstance = () => {
-  const context = new Axios()
+import defaults from "./default"
+
+const createInstance: (config: AxiosRequestConfig) => AxiosInstance = (config) => {
+  const context = new Axios(config)
 
   const instance = Axios.prototype.request.bind(context) // 将实例指向原型上的request。由于request需要访问this。所以手动绑定上下文
 
@@ -15,7 +17,7 @@ const createInstance: () => AxiosInstance = () => {
   return instance as AxiosInstance
 }
 
-const axios = createInstance()
+const axios = createInstance(defaults)
 
 
 // 后续调取axios(config)==>相当于是调取instance===>instance 指向Axios.prototype.request，因此相当于是调取了Axios.prototype.request
