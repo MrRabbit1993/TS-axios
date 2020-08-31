@@ -4,7 +4,7 @@ import { buildURL } from '../helpers/url'
 
 import { transformRequest, transformResponse } from '../helpers/data'
 
-import { processHeaders } from '../helpers/headers'
+import { processHeaders, flattenHeaders } from '../helpers/headers'
 
 import xhr from './xhr'
 
@@ -13,6 +13,7 @@ const processConfig: (config: AxiosRequestConfig) => void = config => {
     config.url = transformURL(config)
     config.headers = transformHeaders(config)
     config.data = transformRequestData(config)
+    config.header = flattenHeaders(config.header,config.method!) // 采取断言，这里的method在运行时一定有
 }
 
 // 转换url

@@ -1,4 +1,5 @@
-import { isPlainObject } from './util'
+import { isPlainObject, deepMerge } from './util'
+import { Method } from "./../types"
 
 // 标准化请求头属性
 const normalizeHeaderName: (headers: any, normalizeName: string) => void = (
@@ -43,4 +44,12 @@ export const parseHeaders: (headers: string) => any = headers => {
     parsed[key] = val
   })
   return parsed
+}
+// 请求头合并
+export const flattenHeaders: (headers: any, method: Method) => any = (headers, method) => {
+  if (!headers) return headers
+  headers = deepMerge(headers.common, headers[method], headers) // 将common与method合并在header上
+  const methodsToDelete: string[] = ['delete', 'get', 'head', 'options', 'post', 'put', 'patch', 'common'] // 需要移除的
+  methodsToDelete.forEach(method => delete headers[method]) // 合并后移除上述的methods
+  return headers
 }
