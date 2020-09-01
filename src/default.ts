@@ -18,7 +18,7 @@ methodsNoData.forEach(method => {
 
 const methodsWithData: string[] = ['post', 'put', 'patch']
 
-methodsWithData.forEach(method => {
+methodsWithData.forEach(method => {// 增加默认的content-type
     defaults.headers[method] = {
         'Content-Type': 'application/x-wwww-form-urlencoded'
     }
