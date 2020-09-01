@@ -13,7 +13,7 @@ const processConfig: (config: AxiosRequestConfig) => void = config => {
     config.url = transformURL(config)
     config.headers = transformHeaders(config)
     config.data = transformRequestData(config)
-    config.header = flattenHeaders(config.header,config.method!) // 采取断言，这里的method在运行时一定有
+    config.headers = flattenHeaders(config.headers,config.method!) // 采取断言，这里的method在运行时一定有
 }
 
 // 转换url
