@@ -24,6 +24,8 @@ export interface AxiosRequestConfig {
   headers?: any
   responseType?: XMLHttpRequestResponseType
   timeout?: number
+  transformRequest?: AxiosTransformer | AxiosTransformer[]
+  transformResponse?: AxiosTransformer | AxiosTransformer[]
   [propName: string]: any // 增加一个字符串类型 供mergeConfig.ts里面merge使用
 }
 
@@ -102,4 +104,9 @@ export interface ResolvedFn<T> {
 // 响应拦截器接口
 export interface RejectedFn {
   (err: any): any
+}
+
+// 请求或者响应转换函数
+export interface AxiosTransformer {
+  (data: any, headers?: any): any  // 参数是any类型的data和headers，返回值是any
 }
