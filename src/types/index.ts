@@ -1,20 +1,6 @@
 // 项目工程  所有公共的类型定义文件
 
-export type Method =
-  | 'get'
-  | 'GET'
-  | 'post'
-  | 'POST'
-  | 'delete'
-  | 'DELETE'
-  | 'head'
-  | 'HEAD'
-  | 'options'
-  | 'OPTIONS'
-  | 'put'
-  | 'PUT'
-  | 'patch'
-  | 'PATCH' // 约束methosd
+export type Method = 'get' | 'GET' | 'post' | 'POST' | 'delete' | 'DELETE' | 'head' | 'HEAD' | 'options' | 'OPTIONS' | 'put' | 'PUT' | 'patch' | 'PATCH' // 约束methosd
 
 export interface AxiosRequestConfig {
   url?: string
@@ -82,12 +68,17 @@ export interface Axios {
 
 }
 
+
 export interface AxiosInstance extends Axios { // 继承Axios的明确请求方法。形成混合接口
   <T = any>(config: AxiosRequestConfig): AxiosPromise<T>
 
   <T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T> // 函数类型的定义签名
 }
 
+// axios静态接口（为静态方法使用）
+export interface AxiosStatic extends AxiosInstance {
+  create(config?: AxiosRequestConfig): AxiosInstance //静态的create方法
+}
 
 // 拦截器接口
 export interface AxiosInterceptorManager<T> {
