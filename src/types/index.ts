@@ -48,7 +48,7 @@ export interface AxiosResponse<T = any> {
 }
 
 // export interface AxiosPromise extends Promise<AxiosResponse> { }
-export interface AxiosPromise<T = any> extends Promise<AxiosResponse<T>> {}
+export interface AxiosPromise<T = any> extends Promise<AxiosResponse<T>> { }
 
 export interface AxiosError extends Error {
   config: AxiosRequestConfig
@@ -92,6 +92,9 @@ export interface AxiosInstance extends Axios {
 // axios静态接口（为静态方法使用）
 export interface AxiosStatic extends AxiosInstance {
   create(config?: AxiosRequestConfig): AxiosInstance // 静态的create方法
+  CancelToken: CancelTokenStatic
+  Cancel: CancelStatic
+  isCancel: (value: any) => boolean
 }
 
 // 拦截器接口
@@ -118,8 +121,8 @@ export interface AxiosTransformer {
 
 // cancelToken接口
 export interface CancelToken {
-  promise: Promise<string>
-  reason?: string // 取消原因
+  promise: Promise<Cancel>
+  reason?: Cancel // 取消原因
 }
 
 // 取消方法接口约束
@@ -139,6 +142,15 @@ export interface CancelTokenSource {
 
 // cancelToken 的类 类型
 export interface CancelTokenStatic {
-  new (executor: CancelExecutor): CancelToken //返回一个CancelToken类型的实例
+  new(executor: CancelExecutor): CancelToken //返回一个CancelToken类型的实例
   source(): CancelTokenSource // 静态方法定义
+}
+
+export interface Cancel {
+  message?: string
+}
+
+//cancel的类类型
+export interface CancelStatic {
+  new(message?: string): Cancel
 }
