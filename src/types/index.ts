@@ -143,7 +143,7 @@ export interface CancelTokenSource {
 
 // cancelToken 的类 类型
 export interface CancelTokenStatic {
-  new(executor: CancelExecutor): CancelToken //返回一个CancelToken类型的实例
+  new(executor: CancelExecutor): CancelToken // 返回一个CancelToken类型的实例
   source(): CancelTokenSource // 静态方法定义
 }
 
@@ -151,7 +151,7 @@ export interface Cancel {
   message?: string
 }
 
-//cancel的类类型
+// cancel的类类型
 export interface CancelStatic {
   new(message?: string): Cancel
 }
