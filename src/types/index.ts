@@ -123,6 +123,7 @@ export interface AxiosTransformer {
 export interface CancelToken {
   promise: Promise<Cancel>
   reason?: Cancel // 取消原因
+  throwIfRequested(): void
 }
 
 // 取消方法接口约束

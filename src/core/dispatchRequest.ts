@@ -1,4 +1,3 @@
-
 import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from '../types/index'
 
 import { buildURL } from '../helpers/url'
@@ -47,9 +46,15 @@ const transformResponseData: (res: AxiosResponse) => AxiosResponse = res => {
 }
 
 
+const throwIfCancellationRequest: (config: AxiosRequestConfig) => void = (config) => {
+    if (config.cancelToken) {// 这里表示token使用过了
+        config.cancelToken.throwIfRequested()
+    }
+}
+
 const dispatchRequest: (config: AxiosRequestConfig) => AxiosPromise = (config) => {
+    throwIfCancellationRequest(config) // 校验是否使用过了token
     processConfig(config)
     return xhr(config).then(res => transformResponseData(res))
 }
-
 export default dispatchRequest

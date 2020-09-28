@@ -23,6 +23,12 @@ export default class CancelToken {
       resolvePromise(this.reason) // 这里调取promise的resolve
     })
   }
+  throwIfRequested() {
+    if (this.reason) {
+      throw this.reason
+    }
+  }
+
   static source(): CancelTokenSource {
     let cancel!: Canceler
     const token = new CancelToken(c => {
