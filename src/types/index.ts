@@ -28,7 +28,7 @@ export interface AxiosRequestConfig {
   transformResponse?: AxiosTransformer | AxiosTransformer[]
   cancelToken?: CancelToken // 增加一个取消的约束
   withCredentials?: boolean // 配置跨域携带cookie
-  xsrfCookieName?: string //配置xsrfcookie的name
+  xsrfCookieName?: string // 配置xsrfcookie的name
   xsrfHeaderName?: string // 配置xsrf header中的name
   onDownloadProgress?: (e: ProgressEvent) => void // 下载进度
   onUploadProgress?: (e: ProgressEvent) => void // 上传进度
