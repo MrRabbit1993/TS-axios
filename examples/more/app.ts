@@ -7,11 +7,11 @@ import qs from 'qs';
  * CORS
  */
 // document.cookie = 'a=b';
-//
+
 // axios.get('/more/get').then(res => {
 //   console.log(res);
 // });
-//
+
 // axios.post('http://localhost:8088/more/server2', {}, {
 //   withCredentials: true,
 // }).then(res => {
@@ -21,14 +21,14 @@ import qs from 'qs';
 /**
  * XSRF防御
  */
-// const instance = axios.create({
-//   xsrfCookieName: 'XSRF-TOKEN-D',
-//   xsrfHeaderName: 'X-XSRF-TOKEN-D'
-// });
-//
-// instance.get('/more/get').then(res => {
-//   console.log(res);
-// });
+const instance = axios.create({
+  xsrfCookieName: 'XSRF-TOKEN-D',
+  xsrfHeaderName: 'X-XSRF-TOKEN-D'
+});
+
+instance.get('/more/get').then(res => {
+  console.log(res);
+});
 
 /**
  * 监控上传和下载进度
@@ -179,34 +179,34 @@ import qs from 'qs';
 /**
  * 扩展静态方法
  */
-function getA() {
-  return axios.get('/more/A');
-}
+// function getA() {
+//   return axios.get('/more/A');
+// }
 
-function getB() {
-  return axios.get('/more/B');
-}
+// function getB() {
+//   return axios.get('/more/B');
+// }
 
-axios.all([getA(), getB()])
-  .then(axios.spread(function (resA, resB) {
-    console.log(resA);
-    console.log(resB);
-  }));
+// axios.all([getA(), getB()])
+//   .then(axios.spread(function (resA, resB) {
+//     console.log(resA);
+//     console.log(resB);
+//   }));
 
-axios.all([getA(), getB()])
-  .then(([resA, resB]) => {
-    console.log(resA);
-    console.log(resB);
-  });
+// axios.all([getA(), getB()])
+//   .then(([resA, resB]) => {
+//     console.log(resA);
+//     console.log(resB);
+//   });
 
-const fakeConfig = {
-  baseURL: 'https://www.baidu.com/',
-  url: '/user/12345',
-  params: {
-    idClient: 1,
-    idTest: 2,
-    testString: 'thisIsATest'
-  }
-};
+// const fakeConfig = {
+//   baseURL: 'https://www.baidu.com/',
+//   url: '/user/12345',
+//   params: {
+//     idClient: 1,
+//     idTest: 2,
+//     testString: 'thisIsATest'
+//   }
+// };
 
-console.log(axios.getUri(fakeConfig));
+// console.log(axios.getUri(fakeConfig));

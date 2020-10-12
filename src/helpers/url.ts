@@ -1,4 +1,10 @@
+
 import { isDate, isPlainObject } from './util'
+
+interface URLORigin {
+  protocol: string,
+  host: string
+}
 
 const encode: (val: string) => string = val => {
   return encodeURIComponent(val)
@@ -51,4 +57,19 @@ export const buildURL: (url: string, params?: any) => string = (url, params) => 
     url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams // 这里表示需要判断当前地址上是否有参数了，有就拼接
   }
   return url
+}
+
+const urlParsingNode = document.createElement("a")
+
+// 辅助函数 解析域名相关信息
+const resolveURL: (url: string) => URLORigin = (url) => {
+  urlParsingNode.setAttribute('href', url)
+  const { protocol, host } = urlParsingNode
+  return { protocol, host }
+}
+const currentOrigin = resolveURL(window.location.href) // 解析当前页面的域名
+// 是否是同源请求
+export const isURLSameOrigin: (requestURL: string) => boolean = (requestURL) => {
+  const parseOrigin = resolveURL(requestURL)
+  return (parseOrigin.protocol === currentOrigin.protocol && parseOrigin.host === currentOrigin.host)
 }

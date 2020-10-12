@@ -9,6 +9,8 @@ const defaults: AxiosRequestConfig = {
             Accept: "application/json,text/plain,*/*"
         }
     },
+    xsrfCookieName: "XSRF-TOKEN", // 设置默认值
+    xsrfHeaderName: "X-XSRF-TOKEN",// 设置默认值
     transformRequest: [function (data: any, headers: any): any {
         processHeaders(headers, data) // 处理请求头
         return transformRequest(data) // 处理请求数据

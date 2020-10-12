@@ -26,9 +26,12 @@ export interface AxiosRequestConfig {
   timeout?: number
   transformRequest?: AxiosTransformer | AxiosTransformer[]
   transformResponse?: AxiosTransformer | AxiosTransformer[]
-  [propName: string]: any // 增加一个字符串类型 供mergeConfig.ts里面merge使用
   cancelToken?: CancelToken // 增加一个取消的约束
   withCredentials?: boolean // 配置跨域携带cookie
+  xsrfCookieName?: string //配置xsrfcookie的name
+  xsrfHeaderName?: string // 配置xsrf header中的name
+
+  [propName: string]: any // 增加一个字符串类型 供mergeConfig.ts里面merge使用
 }
 
 // export interface AxiosResponse {
