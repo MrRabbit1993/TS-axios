@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from "./../types"
-import { isPlainObject,deepMerge} from "./../helpers/util"
+import { isPlainObject, deepMerge } from "./../helpers/util"
 
 const strats = Object.create(null)
 
@@ -29,7 +29,7 @@ const deepMergeStrat: (val1: any, val2: any) => any = (val1, val2) => {
     }
 }
 
-const stratKeysDeepMerge = ['headers']
+const stratKeysDeepMerge = ['headers', 'auth']
 
 stratKeysDeepMerge.forEach(key => {
     strats[key] = deepMergeStrat

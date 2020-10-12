@@ -32,6 +32,7 @@ export interface AxiosRequestConfig {
   xsrfHeaderName?: string // 配置xsrf header中的name
   onDownloadProgress?: (e: ProgressEvent) => void // 下载进度
   onUploadProgress?: (e: ProgressEvent) => void // 上传进度
+  auth?: AxiosBasicCredentials // 签名
   [propName: string]: any // 增加一个字符串类型 供mergeConfig.ts里面merge使用
 }
 
@@ -159,4 +160,9 @@ export interface Cancel {
 // cancel的类类型
 export interface CancelStatic {
   new(message?: string): Cancel
+}
+
+export interface AxiosBasicCredentials {
+  username: string,
+  password: string
 }

@@ -9,11 +9,12 @@ import { isURLSameOrigin } from "../helpers/url"
 import cookie from "../helpers/cookie"
 
 import { isFormData } from "../helpers/util"
+
 // 创建最基本的请求发送
 
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
-    const { url, method = 'get', data = null, headers, responseType, timeout, cancelToken, withCredentials, xsrfCookieName, xsrfHeaderName, onDownloadProgress, onUploadProgress } = config
+    const { url, method = 'get', data = null, headers, responseType, timeout, cancelToken, withCredentials, xsrfCookieName, xsrfHeaderName, onDownloadProgress, onUploadProgress, auth } = config
 
     const request = new XMLHttpRequest()
 
@@ -102,6 +103,10 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
         if (xsrfValue && xsrfHeaderName) {// 有cookie的值，直接附加到当前的header里面
           headers[xsrfHeaderName] = xsrfValue
         }
+      }
+
+      if (auth) {
+        headers['Authorization'] = 'Basic ' + btoa(auth.username + ':' + auth.password)
       }
 
       Object.keys(headers).forEach(name => {
