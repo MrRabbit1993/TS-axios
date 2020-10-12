@@ -112,21 +112,21 @@ axios.post('/more/post', {
 /**
  * 自定义状态码校验规则
  */
-// axios.get('/more/304').then(res => {
-//   console.log(res);
-// }).catch((e: AxiosError) => {
-//   console.log(e.message);
-// });
-//
-// axios.get('/more/304', {
-//   validateStatus(status) {
-//     return status >= 200 && status < 400;
-//   }
-// }).then(res => {
-//   console.log(res);
-// }).catch((e: AxiosError) => {
-//   console.log(e.message);
-// });
+axios.get('/more/304').then(res => {
+  console.log(res);
+}).catch((e: AxiosError) => {
+  console.log(e.message);
+});
+
+axios.get('/more/304', {
+  validateStatus(status) {
+    return status >= 200 && status < 400;
+  }
+}).then(res => {
+  console.log(res);
+}).catch((e: AxiosError) => {
+  console.log(e.message);
+});
 
 /**
  * 自定义参数序列化

@@ -14,7 +14,7 @@ import { isFormData } from "../helpers/util"
 
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
-    const { url, method = 'get', data = null, headers, responseType, timeout, cancelToken, withCredentials, xsrfCookieName, xsrfHeaderName, onDownloadProgress, onUploadProgress, auth } = config
+    const { url, method = 'get', data = null, headers, responseType, timeout, cancelToken, withCredentials, xsrfCookieName, xsrfHeaderName, onDownloadProgress, onUploadProgress, auth, validateStatus } = config
 
     const request = new XMLHttpRequest()
 
@@ -69,7 +69,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
           request
         }
         // resolve(response)
-        handleResponse(response, resolve, reject, config, request)
+        handleResponse(response, resolve, reject, config, request, validateStatus)
       }
       request.onerror = () => {
         // reject(new Error("Network Error"))
@@ -135,11 +135,13 @@ const handleResponse: (
   resolve: any,
   reject: any,
   config: AxiosRequestConfig,
-  request: any
-) => void = (response, resolve, reject, config, request) => {
-  if (response.status >= 200 && response.status < 300) {
+  request: any,
+  validateStatus: (status: number) => boolean
+) => void = (response, resolve, reject, config, request, validateStatus) => {
+  if (!validateStatus || validateStatus(response.status)) {
     resolve(response)
   } else {
+    console.log(response)
     // reject(new Error(`Request faild with status code ${response.status}`))
     reject(
       createError(

@@ -33,6 +33,7 @@ export interface AxiosRequestConfig {
   onDownloadProgress?: (e: ProgressEvent) => void // 下载进度
   onUploadProgress?: (e: ProgressEvent) => void // 上传进度
   auth?: AxiosBasicCredentials // 签名
+  validateStatus?: (status: number) => boolean // 校验是否有效
   [propName: string]: any // 增加一个字符串类型 供mergeConfig.ts里面merge使用
 }
 
