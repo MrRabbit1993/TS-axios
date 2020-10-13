@@ -1,3 +1,9 @@
+/*
+ * @name:
+ * @msg:
+ * @param:
+ * @return:
+ */
 const toString = Object.prototype.toString
 
 // 是否是日期类型
@@ -53,3 +59,8 @@ export const deepMerge: (...objs: any[]) => any = (...objs) => {// 深拷贝
 export function isFormData(val: any): val is FormData {
   return typeof val !== "undefined" && val instanceof FormData
 }
+
+export function isURLSearchParams(val: any): val is URLSearchParams {
+  return typeof val !== "undefined" && val instanceof URLSearchParams
+}
+

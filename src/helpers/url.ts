@@ -1,5 +1,5 @@
 
-import { isDate, isPlainObject } from './util'
+import { isDate, isPlainObject, isURLSearchParams } from './util'
 
 interface URLORigin {
   protocol: string,
@@ -17,38 +17,46 @@ const encode: (val: string) => string = val => {
     .replace(/%5D/gi, ']')
 }
 
-export const buildURL: (url: string, params?: any) => string = (url, params) => {
+export const buildURL: (url: string, params?: any, paramsSerializer?: (params: any) => string) => string = (url, params, paramsSerializer) => {
   if (!params) return url
 
-  const parts: string[] = []
+  let serializedParams
 
-  Object.keys(params).forEach(key => {
-    const val = params[key]
+  if (paramsSerializer) {
+    serializedParams = paramsSerializer(params)
+  } else if (isURLSearchParams(params)) {
+    serializedParams = params.toString()
+  } else {
+    const parts: string[] = []
 
-    // 过滤掉无效的数据
-    if (val === null || typeof val === 'undefined') {
-      return
-    }
-    let values = []
+    Object.keys(params).forEach(key => {
+      const val = params[key]
 
-    if (Array.isArray(val)) {
-      values = val
-      key += '[]'
-    } else {
-      values = [val]
-    }
-
-    values.forEach(val => {
-      if (isDate(val)) {
-        val = val.toISOString()
-      } else if (isPlainObject(val)) {
-        val = JSON.stringify(val)
+      // 过滤掉无效的数据
+      if (val === null || typeof val === 'undefined') {
+        return
       }
-      parts.push(`${encode(key)}=${encode(val)}`)
-    })
-  })
+      let values = []
 
-  let serializedParams = parts.join('&')
+      if (Array.isArray(val)) {
+        values = val
+        key += '[]'
+      } else {
+        values = [val]
+      }
+
+      values.forEach(val => {
+        if (isDate(val)) {
+          val = val.toISOString()
+        } else if (isPlainObject(val)) {
+          val = JSON.stringify(val)
+        }
+        parts.push(`${encode(key)}=${encode(val)}`)
+      })
+    })
+
+    serializedParams = parts.join('&')
+  }
   if (serializedParams) {
     const markIndex = url.indexOf('#')
     if (markIndex !== -1) {

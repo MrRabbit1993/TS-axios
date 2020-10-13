@@ -33,67 +33,67 @@ import qs from 'qs';
 /**
  * 监控上传和下载进度
  */
-const instance = axios.create();
-//
-function calculatePercentage(loaded: number, total: number): number {
-  return Math.floor(loaded) / total;
-}
+// const instance = axios.create();
+// //
+// function calculatePercentage(loaded: number, total: number): number {
+//   return Math.floor(loaded) / total;
+// }
 
-function loadProgressBar() {
-  setupStartProgress();
-  setupUpdateProgress();
-  setupStopProgress();
+// function loadProgressBar() {
+//   setupStartProgress();
+//   setupUpdateProgress();
+//   setupStopProgress();
 
-  function setupStartProgress() {
-    instance.interceptors.request.use(config => {
-      NProgress.start();
-      return config;
-    });
-  }
+//   function setupStartProgress() {
+//     instance.interceptors.request.use(config => {
+//       NProgress.start();
+//       return config;
+//     });
+//   }
 
-  function setupUpdateProgress() {
-    const update = (e: ProgressEvent) => {
-      console.log(e);
-      NProgress.set(calculatePercentage(e.loaded, e.total));
-    };
-    instance.defaults.onDownloadProgress = update;
-    instance.defaults.onUploadProgress = update;
-  }
+//   function setupUpdateProgress() {
+//     const update = (e: ProgressEvent) => {
+//       console.log(e);
+//       NProgress.set(calculatePercentage(e.loaded, e.total));
+//     };
+//     instance.defaults.onDownloadProgress = update;
+//     instance.defaults.onUploadProgress = update;
+//   }
 
-  function setupStopProgress() {
-    instance.interceptors.response.use(response => {
-      NProgress.done();
-      return response;
-    }, error => {
-      NProgress.done();
-      return Promise.reject(error);
-    });
-  }
-}
+//   function setupStopProgress() {
+//     instance.interceptors.response.use(response => {
+//       NProgress.done();
+//       return response;
+//     }, error => {
+//       NProgress.done();
+//       return Promise.reject(error);
+//     });
+//   }
+// }
 
-loadProgressBar();
+// loadProgressBar();
 
-const downloadEl = document.getElementById('download');
+// const downloadEl = document.getElementById('download');
 
-if (downloadEl) {
-  downloadEl.addEventListener('click', function () {
-    instance.get('https://img.mukewang.com/5cc01a7b0001a33718720632.jpg');
-  });
-}
+// if (downloadEl) {
+//   downloadEl.addEventListener('click', function () {
+//     instance.get('https://img.mukewang.com/5cc01a7b0001a33718720632.jpg');
+//   });
+// }
 
-const uploadEl = document.getElementById('upload');
+// const uploadEl = document.getElementById('upload');
 
-if (uploadEl) {
-  uploadEl.addEventListener('click', function () {
-    const data = new FormData();
-    const fileEl = document.getElementById('file') as HTMLInputElement;
+// if (uploadEl) {
+//   uploadEl.addEventListener('click', function () {
+//     const data = new FormData();
+//     const fileEl = document.getElementById('file') as HTMLInputElement;
 
-    if (fileEl.files) {
-      data.append('file', fileEl.files[0]);
-      instance.post('/more/upload', data);
-    }
-  });
-}
+//     if (fileEl.files) {
+//       data.append('file', fileEl.files[0]);
+//       instance.post('/more/upload', data);
+//     }
+//   });
+// }
 
 /**
  * HTTP 授权
@@ -112,56 +112,56 @@ axios.post('/more/post', {
 /**
  * 自定义状态码校验规则
  */
-axios.get('/more/304').then(res => {
-  console.log(res);
-}).catch((e: AxiosError) => {
-  console.log(e.message);
-});
+// axios.get('/more/304').then(res => {
+//   console.log(res);
+// }).catch((e: AxiosError) => {
+//   console.log(e.message);
+// });
 
-axios.get('/more/304', {
-  validateStatus(status) {
-    return status >= 200 && status < 400;
-  }
-}).then(res => {
-  console.log(res);
-}).catch((e: AxiosError) => {
-  console.log(e.message);
-});
+// axios.get('/more/304', {
+//   validateStatus(status) {
+//     return status >= 200 && status < 400;
+//   }
+// }).then(res => {
+//   console.log(res);
+// }).catch((e: AxiosError) => {
+//   console.log(e.message);
+// });
 
 /**
  * 自定义参数序列化
  */
-// axios.get('/more/get', {
-//   params: new URLSearchParams('a=b&c=d')
-// }).then(res => {
-//   console.log(res);
-// });
-//
-// axios.get('/more/get', {
-//   params: {
-//     a: 1,
-//     b: 2,
-//     c: ['a', 'b', 'c']
-//   }
-// }).then(res => {
-//   console.log(res);
-// });
-//
-// const instance = axios.create({
-//   paramsSerializer(params) {
-//     return qs.stringify(params, { arrayFormat: 'brackets' });
-//   }
-// });
-//
-// instance.get('/more/get', {
-//   params: {
-//     a: 1,
-//     b: 2,
-//     c: ['a', 'b', 'c']
-//   }
-// }).then(res => {
-//   console.log(res);
-// });
+axios.get('/more/get', {
+  params: new URLSearchParams('a=b&c=d')
+}).then(res => {
+  console.log(res);
+});
+
+axios.get('/more/get', {
+  params: {
+    a: 1,
+    b: 2,
+    c: ['a', 'b', 'c']
+  }
+}).then(res => {
+  console.log(res);
+});
+
+const instance = axios.create({
+  paramsSerializer(params) {
+    return qs.stringify(params, { arrayFormat: 'brackets' });
+  }
+});
+
+instance.get('/more/get', {
+  params: {
+    a: 1,
+    b: 2,
+    c: ['a', 'b', 'c']
+  }
+}).then(res => {
+  console.log(res);
+});
 
 /**
  * BaseURL
