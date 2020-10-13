@@ -21,7 +21,7 @@ const processConfig: (config: AxiosRequestConfig) => void = config => {
 }
 
 // 转换url
-const transformURL: (config: AxiosRequestConfig) => string = config => {
+export const transformURL: (config: AxiosRequestConfig) => string = config => {
     let { url, params, paramsSerializer, baseURL } = config
     if (baseURL && !isAbsoluteURL(url!)) {
         url = combineURL(baseURL, url)

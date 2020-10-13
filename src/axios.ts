@@ -30,5 +30,16 @@ axios.create = (config) => {
 axios.CancelToken = CancelToken // 扩展CancelToken
 axios.Cancel = Cancel // 扩展CancelToken
 axios.isCancel = isCancel // 扩展CancelToken
+axios.all = function all(promises) {
+  return Promise.all(promises)
+}
+
+axios.spread = function spread(callback) {
+  return function wrap(arr) {
+    return callback.apply(null, arr)
+  }
+}
+
+axios.Axios = Axios
 // 后续调取axios(config)==>相当于是调取instance===>instance 指向Axios.prototype.request，因此相当于是调取了Axios.prototype.request
 export default axios

@@ -89,6 +89,8 @@ export interface Axios {
   put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise<T>
 
   patch<T = any>(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise<T>
+
+  getUri(config?: AxiosRequestConfig): string
 }
 
 export interface AxiosInstance extends Axios {
@@ -98,12 +100,20 @@ export interface AxiosInstance extends Axios {
   <T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T> // 函数类型的定义签名
 }
 
+// axios 的类 类型
+export interface AxiosClassStatic {
+  new(config: AxiosRequestConfig): Axios
+}
+
 // axios静态接口（为静态方法使用）
 export interface AxiosStatic extends AxiosInstance {
   create(config?: AxiosRequestConfig): AxiosInstance // 静态的create方法
   CancelToken: CancelTokenStatic
   Cancel: CancelStatic
   isCancel: (value: any) => boolean
+  all<T>(promises: Array<T | Promise<T>>): Promise<T[]>
+  spread<T, R>(callback: (...args: T[]) => R): (arr: T[]) => R // T 表示参数类型 R表示返回值类型 参数是函数，返回也是函数
+  Axios: AxiosClassStatic
 }
 
 // 拦截器接口

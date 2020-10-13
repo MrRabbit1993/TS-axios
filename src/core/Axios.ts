@@ -1,6 +1,6 @@
 import { AxiosRequestConfig, AxiosPromise, Method, AxiosResponse, ResolvedFn, RejectedFn } from "./../types"
 
-import dispatchRequest from "./dispatchRequest"
+import dispatchRequest, { transformURL } from "./dispatchRequest"
 
 import InterceptorManager from "./InterceptorManager"
 
@@ -40,7 +40,7 @@ export default class Axios {
         }
 
         config = mergeConfig(this.defaults, config)// 混合默认配置与自定义配置
-        
+
         const chain: PromiseChain<any>[] = [{// 链式调用  这里用any泛型来代替 AxiosPromise或者AxiosRequestConfig
             resolved: dispatchRequest,
             rejected: undefined
@@ -89,6 +89,11 @@ export default class Axios {
 
     patch(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise {
         return this._requestMethodWithData('patch', url, data, config)
+    }
+
+    getUri(config?: AxiosRequestConfig): string {
+        config = mergeConfig(this.defaults, config)
+        return transformURL(config)
     }
 
     _requestMethodWithoutData(method: Method, url: string, config?: AxiosRequestConfig): AxiosPromise {
