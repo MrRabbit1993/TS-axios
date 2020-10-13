@@ -69,7 +69,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
           request
         }
         // resolve(response)
-        handleResponse(response, resolve, reject, config, request, validateStatus)
+        handleResponse(response)
       }
       request.onerror = () => {
         // reject(new Error("Network Error"))
@@ -127,30 +127,21 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
         })
       }
     }
-  })
-}
 
-const handleResponse: (
-  response: AxiosResponse,
-  resolve: any,
-  reject: any,
-  config: AxiosRequestConfig,
-  request: any,
-  validateStatus: (status: number) => boolean
-) => void = (response, resolve, reject, config, request, validateStatus) => {
-  if (!validateStatus || validateStatus(response.status)) {
-    resolve(response)
-  } else {
-    console.log(response)
-    // reject(new Error(`Request faild with status code ${response.status}`))
-    reject(
-      createError(
-        `Request faild with status code ${response.status}`,
-        config,
-        null,
-        request,
-        response
-      )
-    )
-  }
+    function handleResponse(response: AxiosResponse): void {
+      const { status } = response
+      if (!validateStatus || validateStatus(status)) {
+        resolve(response)
+      } else {
+        reject(createError(
+          `Request failed with status code ${status}`,
+          config,
+          null,
+          request,
+          response
+        )
+        )
+      }
+    }
+  })
 }
