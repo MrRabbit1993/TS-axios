@@ -81,3 +81,13 @@ export const isURLSameOrigin: (requestURL: string) => boolean = (requestURL) => 
   const parseOrigin = resolveURL(requestURL)
   return (parseOrigin.protocol === currentOrigin.protocol && parseOrigin.host === currentOrigin.host)
 }
+
+// 是否绝对地址
+export const isAbsoluteURL: (url: string) => boolean = (url) => {
+  return /(^[a-z][a-z\d\+\-\.]*:)?\/\//i.test(url)
+}
+
+export const combineURL: (baseURL: string, relativeURL?: string) => string = (baseURL, relativeURL) => {
+  // 取消baseURL结尾的/ 去掉相对路径前面的/
+  return relativeURL ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '') : baseURL
+}

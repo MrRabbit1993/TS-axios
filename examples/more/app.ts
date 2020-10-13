@@ -131,50 +131,50 @@ axios.post('/more/post', {
 /**
  * 自定义参数序列化
  */
-axios.get('/more/get', {
-  params: new URLSearchParams('a=b&c=d')
-}).then(res => {
-  console.log(res);
-});
+// axios.get('/more/get', {
+//   params: new URLSearchParams('a=b&c=d')
+// }).then(res => {
+//   console.log(res);
+// });
 
-axios.get('/more/get', {
-  params: {
-    a: 1,
-    b: 2,
-    c: ['a', 'b', 'c']
-  }
-}).then(res => {
-  console.log(res);
-});
+// axios.get('/more/get', {
+//   params: {
+//     a: 1,
+//     b: 2,
+//     c: ['a', 'b', 'c']
+//   }
+// }).then(res => {
+//   console.log(res);
+// });
 
-const instance = axios.create({
-  paramsSerializer(params) {
-    return qs.stringify(params, { arrayFormat: 'brackets' });
-  }
-});
+// const instance = axios.create({
+//   paramsSerializer(params) {
+//     return qs.stringify(params, { arrayFormat: 'brackets' });
+//   }
+// });
 
-instance.get('/more/get', {
-  params: {
-    a: 1,
-    b: 2,
-    c: ['a', 'b', 'c']
-  }
-}).then(res => {
-  console.log(res);
-});
+// instance.get('/more/get', {
+//   params: {
+//     a: 1,
+//     b: 2,
+//     c: ['a', 'b', 'c']
+//   }
+// }).then(res => {
+//   console.log(res);
+// });
 
 /**
  * BaseURL
  */
-// const instance = axios.create({
-//   baseURL: 'http://img.mukewang.com/'
-// });
-//
-// // 请求相对地址会自动加上BaseURL
-// instance.get('5cc01a7b0001a33718720632.jpg');
-//
-// // 请求绝对地址BaseURL会自动失效
-// instance.get('http://img.mukewang.com/5cc01a7b0001a33718720632.jpg');
+const instance = axios.create({
+  baseURL: 'http://img.mukewang.com/'
+});
+
+// 请求相对地址会自动加上BaseURL
+instance.get('5cc01a7b0001a33718720632.jpg');
+
+// 请求绝对地址BaseURL会自动失效
+instance.get('http://img.mukewang.com/5cc01a7b0001a33718720632.jpg');
 
 /**
  * 扩展静态方法

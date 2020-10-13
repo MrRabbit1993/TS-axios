@@ -35,6 +35,7 @@ export interface AxiosRequestConfig {
   auth?: AxiosBasicCredentials // 签名
   validateStatus?: (status: number) => boolean // 校验是否有效
   paramsSerializer?: (params: any) => string // 格式化参数
+  baseURL?: string // 基础url
   [propName: string]: any // 增加一个字符串类型 供mergeConfig.ts里面merge使用
 }
 

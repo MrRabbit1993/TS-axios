@@ -1,6 +1,6 @@
 import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from '../types/index'
 
-import { buildURL } from '../helpers/url'
+import { buildURL, isAbsoluteURL, combineURL } from '../helpers/url'
 
 // import { transformRequest, transformResponse } from '../helpers/data'
 
@@ -22,8 +22,10 @@ const processConfig: (config: AxiosRequestConfig) => void = config => {
 
 // 转换url
 const transformURL: (config: AxiosRequestConfig) => string = config => {
-    const { url, params, paramsSerializer } = config
-
+    let { url, params, paramsSerializer, baseURL } = config
+    if (baseURL && !isAbsoluteURL(url!)) {
+        url = combineURL(baseURL, url)
+    }
     return buildURL(url!, params, paramsSerializer) // 这里采取类型断言，断言这个url不会为空
 }
 
