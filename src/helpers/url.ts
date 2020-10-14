@@ -1,4 +1,3 @@
-
 import { isDate, isPlainObject, isURLSearchParams } from './util'
 
 interface URLORigin {
@@ -84,7 +83,7 @@ export const isURLSameOrigin: (requestURL: string) => boolean = (requestURL) => 
 
 // 是否绝对地址
 export const isAbsoluteURL: (url: string) => boolean = (url) => {
-  return /(^[a-z][a-z\d\+\-\.]*:)?\/\//i.test(url)
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url)
 }
 
 export const combineURL: (baseURL: string, relativeURL?: string) => string = (baseURL, relativeURL) => {
