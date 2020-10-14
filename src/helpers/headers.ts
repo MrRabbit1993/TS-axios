@@ -35,12 +35,10 @@ export const parseHeaders: (headers: string) => any = headers => {
   let parsed = Object.create(null)
   if (!headers) return parsed // 如果是空字符串，直接返回空对象
   headers.split('\r\n').forEach(item => {
-    let [key, val] = item.split(':')
+    let [key, ...vals] = item.split(':')
     key = key.trim().toLowerCase()
     if (!key) return // 为空直接进入下次循环
-    if (val) {
-      val = val.trim()
-    }
+    const val = vals.join(":").trim()
     parsed[key] = val
   })
   return parsed
