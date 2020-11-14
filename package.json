@@ -94,6 +94,7 @@
     "@types/node": "^10.11.0",
     "@types/nprogress": "^0.2.0",
     "@types/qs": "^6.5.3",
+    "@types/jasmine-ajax": "^3.1.39",
     "@types/rollup-plugin-json": "^3.0.2",
     "@types/rollup-plugin-node-resolve": "^4.1.0",
     "@types/rollup-plugin-sourcemaps": "^0.4.1",
@@ -140,6 +141,8 @@
     "typescript": "^3.5.3",
     "webpack": "^4.38.0",
     "webpack-dev-middleware": "^3.7.0",
-    "webpack-hot-middleware": "^2.25.0"
+    "webpack-hot-middleware": "^2.25.0",
+    "jasmine-ajax": "^4.0.0",
+    "jasmine-core": "^3.4.0"
   }
 }
