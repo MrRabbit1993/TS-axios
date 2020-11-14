@@ -16,7 +16,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
     const {
       url,
-      method = 'get',
+      method,
       data = null,
       headers = {},
       responseType,
@@ -33,7 +33,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
 
     const request = new XMLHttpRequest()
 
-    request.open(method.toUpperCase(), url!, true) // 这里采取类型断言，断言这个url不会为空
+    request.open(method!.toUpperCase(), url!, true) // 这里采取类型断言，断言这个url不会为空
 
     configRequest()
 
@@ -75,7 +75,8 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
         }
 
         const responseHeaders = parseHeaders(request.getAllResponseHeaders()) // 获取请求头
-        const responseData = responseType !== 'text' ? request.response : request.responseText // 根据设置的requsetType 来判断从response还是responseText获取响应数据
+        const responseData =
+          responseType && responseType !== 'text' ? request.response : request.responseText // 根据设置的requsetType 来判断从response还是responseText获取响应数据
         const response: AxiosResponse = {
           // 响应类型
           data: responseData,
