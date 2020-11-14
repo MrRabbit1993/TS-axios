@@ -1,16 +1,16 @@
-import { AxiosRequestConfig, AxiosStatic } from "./types"
+import { AxiosRequestConfig, AxiosStatic } from './types'
 
-import Axios from "./core/Axios"
+import Axios from './core/Axios'
 
-import { extend } from "./helpers/util"
+import { extend } from './helpers/util'
 
-import defaults from "./default"
+import defaults from './default'
 
-import mergeConfig from "./core/mergeConfig"
+import mergeConfig from './core/mergeConfig'
 
-import CancelToken from "./cancel/cancelToken"
-import Cancel, { isCancel } from "./cancel/cancel"
-const createInstance: (config: AxiosRequestConfig) => AxiosStatic = (config) => {
+import CancelToken from './cancel/cancelToken'
+import Cancel, { isCancel } from './cancel/Cancel'
+const createInstance: (config: AxiosRequestConfig) => AxiosStatic = config => {
   const context = new Axios(config)
   const instance = Axios.prototype.request.bind(context) // 将实例指向原型上的request。由于request需要访问this。所以手动绑定上下文
 
@@ -22,8 +22,7 @@ const createInstance: (config: AxiosRequestConfig) => AxiosStatic = (config) => 
 
 const axios = createInstance(defaults)
 
-
-axios.create = (config) => {
+axios.create = config => {
   return createInstance(mergeConfig(defaults, config))
 }
 
