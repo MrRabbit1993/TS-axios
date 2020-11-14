@@ -10,6 +10,7 @@ export default class CancelToken {
   reason?: Cancel
   constructor(executor: CancelExecutor) {
     // 参数是CancelExecutor类型的函数
+
     let resolvePromise: ResolvePromise // 生产一个临时变量，用于接收promise的resovle方法
     this.promise = new Promise<Cancel>(resolve => {
       resolvePromise = resolve
