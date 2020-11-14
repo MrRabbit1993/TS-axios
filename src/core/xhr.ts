@@ -114,7 +114,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
     function processHeaders(): void {
       // 是formData类型,删除默认的content-type，自动设置
       if (isFormData(data)) {
-        delete headers['Content-type']
+        delete headers['Content-Type']
       }
 
       // 设置了withCredentials 或者是同源
@@ -131,7 +131,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
       }
 
       Object.keys(headers).forEach(name => {
-        if (data === null && name.toLocaleUpperCase() === 'content-type') {
+        if (data === null && name.toLowerCase() === 'content-type') {
           delete headers[name]
         } else {
           request.setRequestHeader(name, headers[name])
