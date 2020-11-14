@@ -4,17 +4,32 @@ import { parseHeaders } from '../helpers/headers'
 
 import { createError } from '../helpers/error'
 
-import { isURLSameOrigin } from "../helpers/url"
+import { isURLSameOrigin } from '../helpers/url'
 
-import cookie from "../helpers/cookie"
+import cookie from '../helpers/cookie'
 
-import { isFormData } from "../helpers/util"
+import { isFormData } from '../helpers/util'
 
 // 创建最基本的请求发送
 
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
-    const { url, method = 'get', data = null, headers, responseType, timeout, cancelToken, withCredentials, xsrfCookieName, xsrfHeaderName, onDownloadProgress, onUploadProgress, auth, validateStatus } = config
+    const {
+      url,
+      method = 'get',
+      data = null,
+      headers = {},
+      responseType,
+      timeout,
+      cancelToken,
+      withCredentials,
+      xsrfCookieName,
+      xsrfHeaderName,
+      onDownloadProgress,
+      onUploadProgress,
+      auth,
+      validateStatus
+    } = config
 
     const request = new XMLHttpRequest()
 
@@ -32,11 +47,13 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
 
     // 处理配置项
     function configRequest(): void {
-      if (responseType) { // 设置响应类型
+      if (responseType) {
+        // 设置响应类型
         request.responseType = responseType
       }
 
-      if (timeout) { // 超时时间
+      if (timeout) {
+        // 超时时间
         request.timeout = timeout
       }
 
@@ -82,11 +99,13 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
         reject(createError(`Timeout of ${timeout} ms exceeded`, config, 'ECONNABORTED', request))
       }
 
-      if (onDownloadProgress) {// 配置了下载进度
+      if (onDownloadProgress) {
+        // 配置了下载进度
         request.onprogress = onDownloadProgress
       }
 
-      if (onUploadProgress) {// 配置了上传进度
+      if (onUploadProgress) {
+        // 配置了上传进度
         request.upload.onprogress = onUploadProgress
       }
     }
@@ -100,7 +119,8 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
       // 设置了withCredentials 或者是同源
       if ((withCredentials || isURLSameOrigin(url!)) && xsrfCookieName) {
         const xsrfValue = cookie.read(xsrfCookieName)
-        if (xsrfValue && xsrfHeaderName) {// 有cookie的值，直接附加到当前的header里面
+        if (xsrfValue && xsrfHeaderName) {
+          // 有cookie的值，直接附加到当前的header里面
           headers[xsrfHeaderName] = xsrfValue
         }
       }
@@ -133,13 +153,8 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
       if (!validateStatus || validateStatus(status)) {
         resolve(response)
       } else {
-        reject(createError(
-          `Request failed with status code ${status}`,
-          config,
-          null,
-          request,
-          response
-        )
+        reject(
+          createError(`Request failed with status code ${status}`, config, null, request, response)
         )
       }
     }
