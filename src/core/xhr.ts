@@ -142,10 +142,14 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
     // 处理取消相关操作
     function processCancel(): void {
       if (cancelToken) {
-        cancelToken.promise.then(reason => {
-          request.abort() // 终止请求
-          reject(reason) // 抛出错误
-        })
+        cancelToken.promise
+          .then(reason => {
+            request.abort() // 终止请求
+            reject(reason) // 抛出错误
+          })
+          .catch(() => {
+            // do noting
+          })
       }
     }
 
